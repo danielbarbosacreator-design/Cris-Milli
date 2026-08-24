@@ -1,0 +1,15 @@
+# macOS / ExFAT metadata junk
+._*
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Next.js
+.next/
+out/
+
+# Env
+.env
+.env.local
