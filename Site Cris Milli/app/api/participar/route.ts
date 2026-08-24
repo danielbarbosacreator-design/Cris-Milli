@@ -4,6 +4,7 @@ type LeadPayload = {
   nome?: unknown;
   whatsapp?: unknown;
   cidade?: unknown;
+  bairro?: unknown;
   consentimento?: unknown;
 };
 
@@ -18,10 +19,11 @@ export async function POST(request: Request) {
       nome: clean(body.nome, 100),
       whatsapp: clean(body.whatsapp, 30),
       cidade: clean(body.cidade, 100),
+      bairro: clean(body.bairro, 100),
       consentimento: body.consentimento === true,
     };
 
-    if (!payload.nome || !payload.whatsapp || !payload.cidade || !payload.consentimento) {
+    if (!payload.nome || !payload.whatsapp || !payload.cidade || !payload.bairro || !payload.consentimento) {
       return Response.json({ sucesso: false, mensagem: "Preencha todos os campos obrigatórios." }, { status: 400 });
     }
 

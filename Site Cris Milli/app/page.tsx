@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { ArchGallery } from "@/components/ui/arch-gallery";
 
-const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/FmQc1oujNKE6QQkRvzzcx0?s=cl&p=i&mlu=4";
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/BBymRl0ZjVd5NJypAYS4I0?s=sw&p=i&mlu=4";
 
 const links = [
   ["Início", "#inicio"],
@@ -71,6 +71,7 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
           nome: String(formData.get("nome") ?? "").trim(),
           whatsapp: String(formData.get("whatsapp") ?? "").trim(),
           cidade: String(formData.get("cidade") ?? "").trim(),
+          bairro: String(formData.get("bairro") ?? "").trim(),
           consentimento: formData.get("consentimento") === "on",
         }),
       });
@@ -101,6 +102,7 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
       <label><span>Nome</span><input name="nome" autoComplete="name" placeholder="Seu nome" required /></label>
       <label><span>WhatsApp</span><input name="whatsapp" type="tel" inputMode="numeric" autoComplete="tel" placeholder="(47) 99999-9999" required /></label>
       <label><span>Cidade</span><input name="cidade" autoComplete="address-level2" placeholder="Sua cidade" required /></label>
+      <label><span>Bairro</span><input name="bairro" autoComplete="address-level3" placeholder="Seu bairro" required /></label>
       <label className="consent">
         <input name="consentimento" type="checkbox" required />
         <span>Autorizo o tratamento dos meus dados para receber comunicações da campanha, de acordo com a <a href="/privacidade">Política de Privacidade</a>.</span>

@@ -23,7 +23,7 @@ export default function PrivacyPage() {
         <div className="privacy-alert"><strong>Documento em preparação.</strong><br />Antes da publicação oficial, a equipe deverá preencher o controlador dos dados, o canal de privacidade, os operadores utilizados e a data de vigência.</div>
 
         <h2>1. Quais dados podem ser coletados</h2>
-        <p>Os formulários do site podem solicitar nome, número de WhatsApp, cidade, interesse em voluntariado, disponibilidade e informações sobre como a pessoa deseja ajudar. Quando tecnicamente configurado, também poderão ser registrados data, hora, origem do cadastro e versão do consentimento.</p>
+        <p>Os formulários do site podem solicitar nome, número de WhatsApp, cidade, bairro, interesse em voluntariado, disponibilidade e informações sobre como a pessoa deseja ajudar. Quando tecnicamente configurado, também poderão ser registrados data, hora, origem do cadastro e versão do consentimento.</p>
 
         <h2>2. Para que os dados são utilizados</h2>
         <p>Os dados poderão ser utilizados para enviar informações, conteúdos, agenda, propostas, materiais e comunicações relacionadas à campanha; organizar apoiadores e voluntários; responder solicitações; e cumprir obrigações legais aplicáveis.</p>
