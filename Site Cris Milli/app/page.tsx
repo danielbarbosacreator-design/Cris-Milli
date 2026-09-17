@@ -264,6 +264,7 @@ export default function Home() {
         <div className="proposal-list">
           {proposals.map(([title, text], index) => <details key={title} open={index === 0}><summary><span>{String(index + 1).padStart(2, "0")}</span>{title}<b>+</b></summary><p>{text}</p></details>)}
         </div>
+        <a className="button" href="/proposta-cris-milli-30180.pdf" download>Baixar proposta completa (PDF)</a>
       </section>
 
       <section className="proximity-section">
