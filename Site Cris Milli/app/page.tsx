@@ -317,7 +317,7 @@ export default function Home() {
       <footer className="footer">
         <div><p>Deputada Estadual • Partido Novo • Santa Catarina</p></div>
         <nav aria-label="Links do rodapé"><a href="#historia">Conheça a Cris</a><a href="#propostas">Propostas</a><a href="#participe">Participe</a><a href="#doacao">Doação</a><a href="/privacidade">Política de Privacidade</a></nav>
-        <p className="electoral-placeholder">Identificação eleitoral obrigatória: aguardando dados oficiais da campanha.</p>
+        <p className="electoral-placeholder">Cris Milli 30.180 — CNPJ 68.329.322/0001-12</p>
       </footer>
 
       <a className="mobile-float" href="#participe">Acessar grupo do WhatsApp</a>
