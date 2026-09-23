@@ -28,6 +28,8 @@ export function FrameMaker({ label = 'Criar minha foto com moldura', className =
   const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [error, setError] = useState('');
   const [canShare, setCanShare] = useState(false);
+  const [result, setResult] = useState('');
+  const [showResult, setShowResult] = useState(false);
 
   const clampOffset = useCallback((next: Offset, image: HTMLImageElement, scaleZoom: number): Offset => {
     const scale = Math.max(SIZE / image.width, SIZE / image.height) * scaleZoom;
@@ -50,6 +52,10 @@ export function FrameMaker({ label = 'Criar minha foto com moldura', className =
     context.fillRect(0, 0, SIZE, SIZE);
     context.drawImage(photo, (SIZE - width) / 2 + offset.x, (SIZE - height) / 2 + offset.y, width, height);
     context.drawImage(frame, 0, 0, SIZE, SIZE);
+
+    // Gera a imagem final antes do clique: o link de download fica pronto e funciona no celular.
+    const timer = window.setTimeout(() => setResult(canvas.toDataURL('image/jpeg', 0.92)), 200);
+    return () => window.clearTimeout(timer);
   }, [photo, zoom, offset]);
 
   useEffect(() => {
@@ -75,6 +81,8 @@ export function FrameMaker({ label = 'Criar minha foto com moldura', className =
       frameRef.current = frame;
       setZoom(1);
       setOffset({ x: 0, y: 0 });
+      setResult('');
+      setShowResult(false);
       setPhoto(image);
       const probe = new File([''], FILE_NAME, { type: 'image/jpeg' });
       setCanShare(typeof navigator.canShare === 'function' && navigator.canShare({ files: [probe] }));
@@ -87,6 +95,7 @@ export function FrameMaker({ label = 'Criar minha foto com moldura', className =
 
   function close() {
     setPhoto(null);
+    setShowResult(false);
   }
 
   function changeZoom(value: number) {
@@ -107,28 +116,17 @@ export function FrameMaker({ label = 'Criar minha foto com moldura', className =
     setOffset(clampOffset({ x: drag.offset.x + (event.clientX - drag.x) * ratio, y: drag.offset.y + (event.clientY - drag.y) * ratio }, photo, zoom));
   }
 
-  function toBlob() {
-    return new Promise<Blob | null>((resolve) => canvasRef.current?.toBlob(resolve, 'image/jpeg', 0.92) ?? resolve(null));
-  }
-
-  async function download() {
-    const blob = await toBlob();
-    if (!blob) return;
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = FILE_NAME;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  function download() {
+    // O link <a download> já baixa no navegador; a imagem final fica visível para salvar manualmente
+    // em navegadores que bloqueiam downloads (Instagram, Facebook, WhatsApp, iPhone).
+    setShowResult(true);
     window.dispatchEvent(new CustomEvent('moldura_download'));
   }
 
   async function share() {
-    const blob = await toBlob();
-    if (!blob) return;
+    if (!result) return;
     try {
+      const blob = await fetch(result).then((response) => response.blob());
       await navigator.share({ files: [new File([blob], FILE_NAME, { type: 'image/jpeg' })], text: 'Eu apoio Cris Milli 30.180! #EuApoioCrisMilli' });
       window.dispatchEvent(new CustomEvent('moldura_share'));
     } catch {
@@ -153,22 +151,36 @@ export function FrameMaker({ label = 'Criar minha foto com moldura', className =
               width={SIZE}
               height={SIZE}
               className="frame-canvas"
+              hidden={showResult}
               aria-label="Pré-visualização da foto com a moldura"
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={() => { dragRef.current = null; }}
               onPointerCancel={() => { dragRef.current = null; }}
             />
-            <label className="frame-zoom">
-              <span>Zoom</span>
-              <input type="range" min={1} max={3} step={0.01} value={zoom} onChange={(event) => changeZoom(Number(event.target.value))} />
-            </label>
-            <p className="frame-hint">Arraste a foto para ajustar a posição.</p>
-            <div className="frame-actions">
-              <button className="button" type="button" onClick={download}>Baixar foto</button>
-              {canShare && <button className="button button-outline" type="button" onClick={share}>Compartilhar</button>}
-              <button className="text-button" type="button" onClick={() => inputRef.current?.click()}>Trocar foto</button>
-            </div>
+            {showResult ? (
+              <>
+                <img className="frame-canvas frame-result" src={result} alt="Sua foto com a moldura Eu apoio Cris Milli 30.180" />
+                <p className="frame-save-tip"><b>Não baixou?</b> Toque e segure na imagem acima e escolha <b>Salvar imagem</b>. No computador, clique com o botão direito e escolha <b>Salvar imagem como</b>.</p>
+                <div className="frame-actions">
+                  {canShare && <button className="button" type="button" onClick={share}>Compartilhar</button>}
+                  <button className="text-button" type="button" onClick={() => setShowResult(false)}>Ajustar de novo</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <label className="frame-zoom">
+                  <span>Zoom</span>
+                  <input type="range" min={1} max={3} step={0.01} value={zoom} onChange={(event) => changeZoom(Number(event.target.value))} />
+                </label>
+                <p className="frame-hint">Arraste a foto para ajustar a posição.</p>
+                <div className="frame-actions">
+                  <a className={result ? 'button' : 'button is-loading'} href={result || undefined} download={FILE_NAME} onClick={download}>Baixar foto</a>
+                  {canShare && <button className="button button-outline" type="button" onClick={share} disabled={!result}>Compartilhar</button>}
+                  <button className="text-button" type="button" onClick={() => inputRef.current?.click()}>Trocar foto</button>
+                </div>
+              </>
+            )}
           </div>
         </div>,
         document.body,

@@ -276,3 +276,7 @@ p,li,input,textarea,label { font-weight:300; }
 .frame-actions .button-outline:hover { background:rgba(3,53,105,.08); }
 @media (max-width:1000px) { .frame-section { grid-template-columns:1fr; } .frame-preview { max-width:340px; } }
 @media (max-width:620px) { .frame-section { padding:56px 20px; } .frame-copy .button { width:100%; } .frame-panel { padding:24px 16px 18px; } }
+.frame-result { cursor:default; -webkit-touch-callout:default; user-select:auto; }
+.frame-save-tip { margin:14px 0 0; padding:12px 14px; border-radius:6px; background:#fff1e8; color:var(--ink); font-size:14px; line-height:1.5; }
+.frame-actions .is-loading { opacity:.6; pointer-events:none; }
+.frame-canvas[hidden] { display:none; }
