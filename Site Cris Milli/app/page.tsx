@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState, type CSSProperties } from "react";
 import { ArchGallery } from "@/components/ui/arch-gallery";
+import { FrameMaker } from "@/components/ui/frame-maker";
 
 const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/BBymRl0ZjVd5NJypAYS4I0?s=sw&p=i&mlu=4";
 
@@ -11,6 +12,7 @@ const links = [
   ["Bandeiras", "#bandeiras"],
   ["Propostas", "#propostas"],
   ["Participe", "#participe"],
+  ["Moldura", "#moldura"],
   ["Doação", "#doacao"],
 ] as const;
 
@@ -137,6 +139,7 @@ export default function Home() {
       ".donation-section > *",
       ".social-section > *",
       ".final-copy",
+      ".frame-copy",
     ].join(",")));
 
     const cardGroups = [
@@ -194,7 +197,7 @@ export default function Home() {
           <p className="eyebrow">Uma candidatura por Santa Catarina</p>
           <h1 className="hero-statement">Eu não vim buscar a política.<br />A política veio até mim.</h1>
           <p className="hero-text">Uma mulher que recomeçou mais de uma vez, criou três filhos, empreendeu, trabalhou no Brasil e no Japão e há anos escuta e fortalece mulheres. Agora, Cris Milli quer levar essa mesma coragem, verdade e capacidade de servir para a Assembleia Legislativa de Santa Catarina.</p>
-          <div className="hero-actions"><a className="button" href="#participe">Acessar grupo do WhatsApp</a><a className="text-link" href="#propostas">Conheça as propostas <span>↓</span></a></div>
+          <div className="hero-actions"><a className="button" href="#participe">Acessar grupo do WhatsApp</a><FrameMaker className="button button-outline" label="Foto com moldura" /><a className="text-link" href="#propostas">Conheça as propostas <span>↓</span></a></div>
           <p className="party-line">CRIS MILLI 30.180 · PARTIDO NOVO</p>
         </div>
         <div className="hero-portrait">
@@ -211,6 +214,16 @@ export default function Home() {
           <div className="join-proof"><span><b>150</b> mulheres já impactadas</span><span><b>9</b> anos em São Francisco do Sul</span></div>
         </div>
         <LeadForm />
+      </section>
+
+      <section className="frame-section" id="moldura">
+        <img className="frame-preview" src="/moldura-cris-milli-30180.png" alt="Moldura Eu apoio essa mulher — Cris Milli 30.180" />
+        <div className="frame-copy">
+          <p className="eyebrow">#EuApoioCrisMilli</p>
+          <h2>Coloque a moldura na sua foto.</h2>
+          <p>Escolha uma foto, ajuste o enquadramento e baixe na hora. Use no perfil do WhatsApp, Instagram e Facebook e mostre que você apoia a Cris.</p>
+          <FrameMaker label="Enviar minha foto" />
+        </div>
       </section>
 
       <section className="story-section" id="historia">
@@ -298,7 +311,7 @@ export default function Home() {
         <div className="participation-grid">
           <article><span>01</span><h3>Entrar para a comunidade</h3><p>Receba informações da campanha, agenda, propostas e materiais para compartilhar.</p><a className="text-button" href="#participe">Acessar grupo do WhatsApp</a></article>
           <article><span>02</span><h3>Ser voluntário</h3><p>Ajude presencialmente ou de forma digital, de acordo com sua disponibilidade e cidade.</p><details className="volunteer"><summary>Quero ser voluntário</summary><form onSubmit={(event) => { event.preventDefault(); alert("Interesse registrado nesta demonstração."); }}><input aria-label="Nome" placeholder="Nome" required/><input aria-label="WhatsApp" type="tel" inputMode="numeric" placeholder="WhatsApp" required/><input aria-label="Cidade" placeholder="Cidade" required/><textarea aria-label="Como gostaria de ajudar" placeholder="Como gostaria de ajudar?" required/><label><input type="checkbox" required/> Autorizo o tratamento dos meus dados.</label><button className="button button-dark" type="submit">Enviar interesse</button></form></details></article>
-          <article><span>03</span><h3>Compartilhar a campanha</h3><p>Uma conversa, um Story ou uma mensagem pode apresentar a Cris para quem ainda não conhece sua história.</p><button className="text-button" disabled>Kit em configuração</button></article>
+          <article><span>03</span><h3>Compartilhar a campanha</h3><p>Uma conversa, um Story ou uma mensagem pode apresentar a Cris para quem ainda não conhece sua história.</p><FrameMaker className="text-button" label="Criar foto com moldura" /></article>
           <article><span>04</span><h3>Apresentar a Cris</h3><p>Quer ajudar a campanha a chegar a mais pessoas da sua cidade ou comunidade?</p><button className="text-button" disabled>Contato em configuração</button></article>
         </div>
       </section>
